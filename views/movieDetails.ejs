@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= movie.title %></title>
+</head>
+<body>
+    <a href="/">Back</a>
+    <h1><%= movie.title %></h1>
+
+    <p><%= movie.comment %></p>
+
+    <form action="/movieDetails/<%= movie._id %>?_method=PUT" method="POST">
+        <label>Comments:</label>
+        <input type="text" name="comment">
+        <button type="submit">Add Comment</button>
+    </form>
+    
+    <form action="/movieDetails/<%= movie._id%>?_method=DELETE" method="POST">
+        <button tyoe="submit">Remove <%= movie.title %> from your library</button>
+    </form>
+
+</body>
+</html>
