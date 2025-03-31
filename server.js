@@ -1,12 +1,12 @@
-const dotenv = require('dotenv')
+const dotenv = require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const Movie = require(`./model/movies.js`)
+const apiKey = `&apikey=${process.env.OMDB_API_KEY}`
 
-dotenv.config()
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }))
@@ -19,9 +19,7 @@ app.use(express.static(`public`))
 
 // Connect to database
 mongoose.connect(process.env.MONGODB_URI)
-mongoose.connection.on(`connected`, () => {
-    console.log(`connected to mongodb ${ mongoose.connection.name }`)
-})
+mongoose.connection.on(`connected`, () => { })
 
 
 
@@ -38,10 +36,31 @@ app.get(`/`, async (request, response) => {
 
 
 // Create
-app.post(`/`, async (request, response) => { 
-    await Movie.create(request.body)
+app.post(`/`, async (request, response) => {
+    const movieTitle = await request.body.title
+    const movieData = await fetchData(movieTitle)
+
+    await Movie.create(
+        {
+            title: movieData.Title,
+            poster: movieData.Poster
+        }
+    )
+
     response.redirect(request.get('referer'))
 });
+
+
+
+
+// Fetch API
+const fetchData = async (movieTitle) => {
+    const url = `http://www.omdbapi.com/?t=${movieTitle}${apiKey}`
+
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+}
 
 
 
@@ -67,7 +86,6 @@ app.put(`/movieDetails/:movieId`, async (request, response) => {
 
 
 
-
 // Delete
 app.delete(`/movieDetails/:movieId`, async (request, response) => {
     await Movie.findByIdAndDelete(request.params.movieId)
@@ -75,6 +93,6 @@ app.delete(`/movieDetails/:movieId`, async (request, response) => {
 })
 
 
-app.listen(3000, () => {
-    console.log(`Listening on port 3000`)
-})
+
+
+app.listen(3000, () => { })

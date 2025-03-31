@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Movies</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
+    <div class="body-container">
+        <header>
+            <form action="/" method="POST">
+                <label for="">Home</label>
+                <input type="search" name="title" placeholder="Search for a Movie.">
+                <button>Search</button>
+            </form>
+        </header>
     
-    <header>
-        <form action="/" method="POST">
-            <label for="">Home</label>
-            <input type="text" name="title" placeholder="Search for a Movie or a TV show.">
-            <button>Search</button>
-        </form>
-    </header>
-
-    <main>
-        <% movies.forEach(movie => { %>
-            <li>
-                <a href="/movieDetails/<%= movie._id %>"><%= movie.title %></a>
-            </li>
-        <% }) %>
-    </main>
-
+        <main>
+            <% movies.forEach(movie=> { %>
+                <li>
+                    <a href="/movieDetails/<%= movie._id %>">
+                        <%= movie.title %>
+                            <img src="<%= movie.poster %>" alt="">
+                    </a>
+    
+                </li>
+                <% }) %>
+        </main>
+    </div>
 </body>
+
 </html>
