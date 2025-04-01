@@ -43,7 +43,14 @@ app.post(`/`, async (request, response) => {
     await Movie.create(
         {
             title: movieData.Title,
-            poster: movieData.Poster
+            poster: movieData.Poster,
+            year: movieData.Year,
+            rated: movieData.Rated,
+            runtime: movieData.Runtime,
+            genre: movieData.Genre,
+            director: movieData.Director,
+            actors: movieData.Actors,
+            plot: movieData.Plot
         }
     )
 
