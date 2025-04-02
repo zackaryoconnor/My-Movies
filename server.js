@@ -19,7 +19,9 @@ app.use(express.static(`public`))
 
 // Connect to database
 mongoose.connect(process.env.MONGODB_URI)
-mongoose.connection.on(`connected`, () => { })
+mongoose.connection.on(`connected`, () => { 
+    console.log(`Conntected to Databse`)
+})
 
 
 
@@ -102,4 +104,6 @@ app.delete(`/movieDetails/:movieId`, async (request, response) => {
 
 
 
-app.listen(3000, () => { })
+app.listen(3000, () => {
+    console.log(`Listening on port 3000`)
+})
